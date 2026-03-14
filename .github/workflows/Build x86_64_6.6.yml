@@ -36,14 +36,13 @@ jobs:
 
     steps:
     - name: 检查
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
 
-    -name: Cache
+    - name: Cache
      uses: actions/cache@v4
-     with:
      
     - name: 释放磁盘空间
-      uses: jlumbroso/free-disk-space@main
+      uses: jlumbroso/free-disk-space@v1.3.1
       with:
         tool-cache: false
         android: true
@@ -169,7 +168,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传artifact固件目录
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v4
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       with:
         name: ${{ env.date1 }}_${{ matrix.target.arch }}_${{ matrix.target.kernel }}
@@ -195,7 +194,7 @@ jobs:
         body_path: release.txt
 
     - name: 删除workflow工作流
-      uses: Mattraks/delete-workflow-runs@main
+      uses: Mattraks/delete-workflow-runs@v2
       with:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         repository: ${{ github.repository }}
